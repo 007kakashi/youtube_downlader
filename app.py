@@ -1,4 +1,4 @@
-from constants import audio_downloader,video_downloader,playlist_downloader
+from constant import audio_downloader,video_downloader,playlist_downloader
 import streamlit as st
 import os
 import tkinter as tk
