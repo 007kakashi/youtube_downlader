@@ -10,11 +10,11 @@ import os
 #     folder_selected = filedialog.askdirectory()
 #     return folder_selected
 
-def get_audio_download_link(file_path):
-    return f'<a href="{file_path}" download>Click here to download your audio</a>'
+# def get_audio_download_link(file_path):
+#     return f'<a href="{file_path}" download>Click here to download your audio</a>'
 
-def get_video_download_link(file_path):
-    return f'<a href="{file_path}" download>Click here to download your video</a>'
+# def get_video_download_link(file_path):
+#     # return f'<a href="{file_path}" download>Click here to download your video</a>'
 
 
 st.header('Youtube Video and Audio Downloader')
@@ -32,10 +32,10 @@ if download and user:
         st.text("Download started for Audio...")
         audio_file_path = audio_downloader(user)
         st.text("Download completed for Audio!")
-        st.markdown(get_audio_download_link(audio_file_path), unsafe_allow_html=True)
+        # st.markdown(get_audio_download_link(audio_file_path), unsafe_allow_html=True)
     else:
         st.text("Download started for Video...")
         video_file_path = video_downloader(user)
         st.text("Download completed for Video!")
-        st.markdown(get_video_download_link(video_file_path), unsafe_allow_html=True)
+        # st.markdown(get_video_download_link(video_file_path), unsafe_allow_html=True)
 
