@@ -1,14 +1,14 @@
 from constant import audio_downloader,video_downloader,playlist_downloader
 import streamlit as st
 import os
-import tkinter as tk
-from tkinter import filedialog
+# import tkinter as tk
+# from tkinter import filedialog
 
-def select_download_location():
-    root= tk.Tk()
-    root.withdraw()
-    folder_selected = filedialog.askdirectory()
-    return folder_selected
+# def select_download_location():
+#     root= tk.Tk()
+#     root.withdraw()
+#     folder_selected = filedialog.askdirectory()
+#     return folder_selected
 
 def get_audio_download_link(file_path):
     return f'<a href="{file_path}" download>Click here to download your audio</a>'

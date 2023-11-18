@@ -2,4 +2,4 @@ streamlit
 numpy
 pytube
 flask
-tkinter
+# tk==x
