@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Downloader</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .animated-title {
+      font-size: 3em;
+      color: #007bff;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+      animation: fadeInUp 1s ease-in-out forwards;
+    }
+
+    .form-container {
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label,
+    input,
+    select,
+    button {
+      margin-bottom: 15px;
+      width: 100%;
+      max-width: 250px;
+    }
+
+    button {
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Existing animation styles */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="content">
+      <h1 class="animated-title">YouTube Downloader</h1>
+      <div class="form-container">
+        <form action="process_link" method="POST">
+          <label for="videoLink">Enter YouTube Video Link:</label>
+          <input type="text" id="videoLink" name="videoLink" required>
+          
+          <label for="formatSelect">Select Format:</label>
+          <select id="formatSelect" name="formatSelect" class="styled-select">
+            <option value="video">Video</option>
+            <option value="audio">Audio</option>
+          </select>
+          
+          <button type="submit" class="animated-button">Download</button>
+        </form>
+        <!-- <div id="downloadResult" class="hidden animated-result">
+          <a id="downloadButton" href="#" download class="animated-download">Download File</a>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

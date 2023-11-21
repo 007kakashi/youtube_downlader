@@ -1,41 +1,33 @@
 from constant import audio_downloader,video_downloader,playlist_downloader
 import streamlit as st
 import os
-# import tkinter as tk
-# from tkinter import filedialog
+from pytube import YouTube
+from flask import Flask,redirect,url_for,request,render_template,send_file
 
-# def select_download_location():
-#     root= tk.Tk()
-#     root.withdraw()
-#     folder_selected = filedialog.askdirectory()
-#     return folder_selected
+app=Flask(__name__)
 
-# def get_audio_download_link(file_path):
-#     return f'<a href="{file_path}" download>Click here to download your audio</a>'
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-# def get_video_download_link(file_path):
-#     # return f'<a href="{file_path}" download>Click here to download your video</a>'
+@app.route('/process_link', methods=['POST'])
+def process_link():
+    if request.method == 'POST':
+        user = request.form['videoLink']
+        selected= request.form['formatSelect']
+        
+        try:
+
+            if selected == 'audio':
+                audio=audio_downloader(user)
+                return send_file(audio, as_attachment=True)
+            else:
+                video=video_downloader(user)
+                return send_file(video, as_attachment=True)
+
+        except Exception as e:
+            raise str(e)
 
 
-st.header('Youtube Video and Audio Downloader')
-
-user=st.text_input('Paste Your Link Here')
-
-selection=st.selectbox('Please Select Format',['Video','Audio'])
-
-
-
-download=st.button("Download")
-
-if download and user:
-    if selection == 'Audio':
-        st.text("Download started for Audio...")
-        audio_file_path = audio_downloader(user)
-        st.text("Download completed for Audio!")
-        # st.markdown(get_audio_download_link(audio_file_path), unsafe_allow_html=True)
-    else:
-        st.text("Download started for Video...")
-        video_file_path = video_downloader(user)
-        st.text("Download completed for Video!")
-        # st.markdown(get_video_download_link(video_file_path), unsafe_allow_html=True)
-
+if __name__=='__main__':
+    app.run(debug=True)
