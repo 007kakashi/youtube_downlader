@@ -15,7 +15,8 @@ def video_downloader(url):
     return stream.download(skip_existing=True)
 
 def playlist_downloader(url):
-    playlist=Playlist(url)
-    for line in playlist.videos:
-        stream= line.streams.get_audio_only()
-    return stream.download(skip_existing=True)
+    playlist = Playlist(url)
+    for video in playlist.videos:
+        stream = video.streams.get_audio_only()
+        stream.download(skip_existing=True)
+
