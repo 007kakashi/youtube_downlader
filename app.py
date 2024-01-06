@@ -1,4 +1,3 @@
-
 import streamlit as st
 import os
 from pytube import YouTube
@@ -8,9 +7,9 @@ st.header('You Can download Video and Audio of any YT Video')
 
 input_link = st.text_input('Paste Video Link To Download')
 selected_option = st.selectbox(label='Select One Option', options=['Video', 'Audio'])
-download = st.button('Download')
+start_download = st.button('Start Download')
 
-if download:
+if start_download:
     if input_link:
         try:
             yt = YouTube(input_link)
@@ -27,7 +26,7 @@ if download:
                 audio_file = audio_stream.download(output_path='./', filename='audio')
                 st.success("Audio downloaded successfully! Click below to download.")
                 with open(audio_file, 'rb') as file:
-                    st.download_button(label='Click to download', data=file, mime='audio/mp4')
+                    st.download_button(label='Click to download', data=file, file_name='audio.mp4', mime='audio/mp4')
                 os.remove(audio_file)
         except Exception as e:
             st.error(f'Error downloading the file: {str(e)}')
