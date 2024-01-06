@@ -1,3 +1,4 @@
+
 import streamlit as st
 import os
 from pytube import YouTube
@@ -10,22 +11,25 @@ selected_option = st.selectbox(label='Select One Option', options=['Video', 'Aud
 download = st.button('Download')
 
 if download:
-    try:
-        if selected_option == 'Video':
-            video_file = YouTube(input_link)
-            video_download = video_file.streams.get_highest_resolution()
-            video_download.download(filename='video')
-            st.success("Video downloaded successfully! Click below to download.")
-            with open('video.mp4', 'rb') as file:
-                st.download_button(label='Click to download', data=file, file_name='video.mp4', mime='video/mp4')
-            os.remove('video.mp4')
-        else:
-            video_file = YouTube(input_link)
-            video_download = video_file.streams.get_audio_only()
-            video_download.download(filename='audio')
-            st.success("Audio downloaded successfully! Click below to download.")
-            with open('audio.mp4', 'rb') as file:
-                st.download_button(label='Click to download', data=file, file_name='audio.mp4', mime='audio/mp4')
-            os.remove('audio.mp4')
-    except Exception as e:
-        st.error('Error downloading the file. Please check the provided link.')
+    if input_link:
+        try:
+            yt = YouTube(input_link)
+
+            if selected_option == 'Video':
+                video_stream = yt.streams.filter(file_extension='mp4').get_highest_resolution()
+                video_file = video_stream.download(output_path='./', filename='video')
+                st.success("Video downloaded successfully! Click below to download.")
+                with open(video_file, 'rb') as file:
+                    st.download_button(label='Click to download', data=file, file_name='video.mp4', mime='video/mp4')
+                os.remove(video_file)
+            else:
+                audio_stream = yt.streams.filter(only_audio=True).first()
+                audio_file = audio_stream.download(output_path='./', filename='audio')
+                st.success("Audio downloaded successfully! Click below to download.")
+                with open(audio_file, 'rb') as file:
+                    st.download_button(label='Click to download', data=file, mime='audio/mp4')
+                os.remove(audio_file)
+        except Exception as e:
+            st.error(f'Error downloading the file: {str(e)}')
+    else:
+        st.warning('Please provide a valid YouTube video link.')
