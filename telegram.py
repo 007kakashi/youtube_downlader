@@ -1,7 +1,13 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from pytube import YouTube
+from dotenv import load_dotenv
+import os
 
-TOKEN = '6895144597:AAFzxHYVhbc8U4E33ay5pbn_-_T7YQRDMu0'
+load_dotenv()
+
+TOKEN = os.getenv('TOEKN')
+
+
 
 def start(update, context):
     update.message.reply_text("Welcome! Send me a YouTube video URL, and I'll provide you with the video.")
