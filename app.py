@@ -1,44 +1,37 @@
+# from constant import audio_downloader,video_downloader,playlist_downloader
 import streamlit as st
 import os
 from pytube import YouTube
-import string
+from flask import Flask,request,render_template,send_file
 
-st.title('Welcome to Youtube Video Downloader')
-st.header('You Can download Video and Audio of any YT Video')
+app=Flask(__name__)
 
-input_link = st.text_input('Paste Video Link To Download')
-selected_option = st.selectbox(label='Select One Option', options=['Video', 'Audio'])
-download = st.button('Get')
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-def sanitize_filename(filename):
-    valid_chars = "-_() %s%s" % (string.ascii_letters, string.digits)
-    return ''.join(c for c in filename if c in valid_chars)
-
-if download:
-    if input_link:
+@app.route('/process_link', methods=['POST'])
+def process_link():
+    if request.method == 'POST':
+        user = request.form['videoLink']
+        selected= request.form['formatSelect']
+        
         try:
-            yt = YouTube(input_link)
-            video_title = sanitize_filename(yt.title)  # Get the video's title and sanitize it
 
-            if selected_option == 'Video':
-                video_stream = yt.streams.filter(file_extension='mp4').get_highest_resolution()
-                st.info("Downloading video...")
-                video_file = video_stream.download(skip_existing=True, filename=video_title)
-                st.success("Video downloaded successfully! Click below to download.")
-                with open(video_file, 'rb') as file:
-                    file_bytes = file.read()
-                st.download_button(label='Click to download', data=file_bytes, file_name=f'{video_title}.mp4', mime='video/mp4')
-                os.remove(video_file)
+            if selected == 'audio':
+                audio_file=YouTube(user)
+                audio_download=audio_file.streams.get_audio_only()
+                audio=audio_download.download(skip_existing=True)
+                return send_file(audio, as_attachment=True)
             else:
-                audio_stream = yt.streams.filter(only_audio=True).first()
-                st.info("Downloading audio...")
-                audio_file = audio_stream.download(skip_existing=True, filename=video_title)
-                st.success("Audio downloaded successfully! Click below to download.")
-                with open(audio_file, 'rb') as file:
-                    file_bytes = file.read()
-                st.download_button(label='Click to download', data=file_bytes, file_name=f'{video_title}.mp4', mime='audio/mp4')
-                os.remove(audio_file)
+                video_file=YouTube(user)
+                video_download=video_file.streams.get_highest_resolution()
+                video=video_download.download(skip_existing=True)
+                return send_file(video, as_attachment=True)
+
         except Exception as e:
-            st.error(f'Error downloading the file: {str(e)}')
-    else:
-        st.warning('Please provide a valid YouTube video link.')
+            raise str(e)
+
+
+if __name__=='__main__':
+    app.run(debug=True)
