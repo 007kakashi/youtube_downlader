@@ -3,7 +3,7 @@ import os
 from pytube import YouTube
 import string
 
-st.title('Welcome To Youtube Video Downloader')
+st.title('Welcome to Youtube Video Downloader')
 st.header('You Can download Video and Audio of any YT Video')
 
 input_link = st.text_input('Paste Video Link To Download')
